@@ -38,7 +38,7 @@ function App() {
         Urinal Machine
       </h1>
       <p className='py-8 text-center'>
-        Somebody gonna match my freak??
+        bend that ass over let that coochie breath??
       </p>
       <div className="grid grid-cols-5 gap-4">
         {urinalState.map((urinal, index) => {
