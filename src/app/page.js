@@ -1,6 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+//const { MongoClient, ServerApiVersion } = require('mongodb');
+//const uri = "mongodb+srv://afern69:E7UowlGl45u4XRHG@cluster0.kel7s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+import empty from "../../public/urinalEmpty.png"
+import person from "../../public/urinalPerson.png"
+import piss from "../../public/urinalPiss.png"
+
+const images = ["/urinalEmpty.png", "/urinalPiss.png", "/urinalPerson.png"]
+
+import axios from 'axios';
+
 
 const generateUrinals = () => {
   const urinalState = []
@@ -20,46 +31,57 @@ const generateUrinals = () => {
   return urinalState
 }
 
+
 function App() {
+  const [randomState, setRandomState] = useState()
   const [urinalState, setUrinalState] = useState([])
 
   //console.log(urinalState)
   console.log("HELP")
 
+  const sendEntry = async (index) =>{
+    await axios.post(`http://localhost:5000/data`, {
+      choice: index,
+      situation: urinalState
+    })
+    setUrinalState(generateUrinals)
+  }
+
   useEffect(() => {
     console.log("LOADING")
     setUrinalState(generateUrinals())
+
+    const num = Math.random()
+    if(num > 0.6){
+      setRandomState(60)
+    } else {
+      setRandomState(40)
+    }
   }, [])
 
 
   return (
-    <div className="App">
-      <h1 className='text-9xl font-bold text-center'>
+    <div className="App p-8">
+      <h1 className='text-9xl font-bold text-center mb-8  '>
         Urinal Machine
       </h1>
-      <p className='py-8 text-center'>
-        bend that ass over let that coochie breath??
-      </p>
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-5 gap-4 text-center">
         {urinalState.map((urinal, index) => {
-          let state = "empty"
-          if (urinal === 0) {
-            state = "empty"
-          } else if (urinal === 1) {
-            state = "piss"
-          } else {
-            state = "person"
-          }
           return (<div key = {index}>
-            {state}
             <div key = {index}>
-              {urinal===2 ? false : (<button className='py-2 bg-yellow-300 rounded px-2'  key = {index} onClick={() => setUrinalState(generateUrinals)}>Selection</button>)}
+              <img src={images[urinal]} alt="Urinal" className='h-96 mx-auto'/>
+              {urinal===2 ? false : (<button className='py-2 bg-yellow-300 rounded px-2'  key = {index} onClick={() => {sendEntry(index)}}>Select</button>)}
 
             </div>
           </div>
           )
         })}
+
       </div>
+      <div className='text-center w-full mt-32 text-gray-400'>
+          {randomState ? <div>owned by Alex ({randomState}%) and Om ({100 - randomState}%) </div> : <div></div>}
+
+        </div>
     </div>
   );
 }
