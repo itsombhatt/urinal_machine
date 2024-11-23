@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 data = []
 
 def writeToCSV(entry):
+    print(entry)
     with open('data.csv', 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(entry) 
@@ -32,9 +33,8 @@ def receive_data():
         if not data or 'choice' not in data:
             return jsonify({'error': 'Invalid request data'}), 400
         
-        new_entry = [data['choice'], data['situation']]
+        new_entry = [data['choice'], data['situation'][0], data['situation'][1], data['situation'][2], data['situation'][3], data['situation'][4]]
 
-        print(new_entry)
         writeToCSV(new_entry)
         return jsonify(new_entry), 201
     
