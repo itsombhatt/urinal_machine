@@ -62,15 +62,15 @@ function App() {
 
   return (
     <div className="App p-8">
-      <h1 className='text-9xl font-bold text-center mb-8  '>
+      <h1 className='md:text-9xl text-3xl font-bold text-center mb-8  '>
         Urinal Machine
       </h1>
-      <div className="grid grid-cols-5 gap-4 text-center">
+      <div className="grid grid-cols-5 gap-4 text-center md:py-0 py-32">
         {urinalState.map((urinal, index) => {
           return (<div key = {index}>
             <div key = {index}>
-              <img src={images[urinal]} alt="Urinal" className='h-96 mx-auto'/>
-              {urinal===2 ? false : (<button className='py-2 bg-yellow-300 rounded px-2'  key = {index} onClick={() => {sendEntry(index)}}>Select</button>)}
+              <img src={images[urinal]} alt="Urinal" className='md:h-96 h-32 mx-auto'/>
+              {urinal===2 ? false : (<button className='md:py-2 py-1 bg-yellow-300 rounded px-2'  key = {index} onClick={() => {sendEntry(index)}}>Select</button>)}
 
             </div>
           </div>
