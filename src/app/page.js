@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react';
 //const { MongoClient, ServerApiVersion } = require('mongodb');
 //const uri = "mongodb+srv://afern69:E7UowlGl45u4XRHG@cluster0.kel7s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-import empty from "../../public/urinalEmpty.png"
-import person from "../../public/urinalPerson.png"
-import piss from "../../public/urinalPiss.png"
-
 const images = ["/urinalEmpty.png", "/urinalPiss.png", "/urinalPerson.png"]
 
 import axios from 'axios';
@@ -61,16 +57,20 @@ function App() {
 
 
   return (
-    <div className="App p-8">
-      <h1 className='md:text-9xl text-3xl font-bold text-center mb-8  '>
+    <div className="App p-8 bg-white h-screen">
+      <h1 className='md:text-9xl text-3xl font-bold text-center my-4'>
         Urinal Machine
       </h1>
-      <div className="grid grid-cols-5 gap-4 text-center md:py-0 py-32">
+      <div className='text-center w-full py-2 text-gray-400 text-xl'>
+          Select a urinal
+        </div>
+      <div className="grid grid-cols-5 gap-4 text-center md:py-0 py-32 md:gap-4 gap-0">
         {urinalState.map((urinal, index) => {
           return (<div key = {index}>
             <div key = {index}>
-              <img src={images[urinal]} alt="Urinal" className='md:h-96 h-32 mx-auto'/>
-              {urinal===2 ? false : (<button className='md:py-2 my-4 py-1 bg-yellow-300 rounded px-2'  key = {index} onClick={() => {sendEntry(index)}}>Select</button>)}
+              <button disabled={urinal===2} className='md:h-96 h-32 w-full bg-white' key = {index} onClick={() => {sendEntry(index)}}>
+              <img src={images[urinal]} alt="Urinal" className='h-full w-full'/>
+              </button>
 
             </div>
           </div>
@@ -78,7 +78,7 @@ function App() {
         })}
 
       </div>
-      <div className='text-center w-full mt-32 text-gray-400'>
+      <div className='text-center w-full absolute inset-x-0 bottom-0 my-4 text-gray-400'>
           {randomState ? <div>owned by Alex ({randomState + 1}%) and Om ({100 - randomState - 1}%) </div> : <div></div>}
 
         </div>
