@@ -70,7 +70,7 @@ function App() {
           return (<div key = {index}>
             <div key = {index}>
               <img src={images[urinal]} alt="Urinal" className='md:h-96 h-32 mx-auto'/>
-              {urinal===2 ? false : (<button className='md:py-2 py-1 bg-yellow-300 rounded px-2'  key = {index} onClick={() => {sendEntry(index)}}>Select</button>)}
+              {urinal===2 ? false : (<button className='md:py-2 my-4 py-1 bg-yellow-300 rounded px-2'  key = {index} onClick={() => {sendEntry(index)}}>Select</button>)}
 
             </div>
           </div>
@@ -79,7 +79,7 @@ function App() {
 
       </div>
       <div className='text-center w-full mt-32 text-gray-400'>
-          {randomState ? <div>owned by Alex ({randomState}%) and Om ({100 - randomState}%) </div> : <div></div>}
+          {randomState ? <div>owned by Alex ({randomState + 1}%) and Om ({100 - randomState - 1}%) </div> : <div></div>}
 
         </div>
     </div>
