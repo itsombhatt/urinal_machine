@@ -36,7 +36,11 @@ def receive_data():
         new_entry = [data['choice'], data['situation'][0], data['situation'][1], data['situation'][2], data['situation'][3], data['situation'][4]]
 
         writeToCSV(new_entry)
-        return jsonify(new_entry), 201
+
+        """MAKE CALL TO MODEL HERE"""
+        prediction = 1;
+
+        return jsonify({'prediction': prediction}), 201
     
     except Exception as e:
         logger.error(f"Error recieving data: {str(e)}")

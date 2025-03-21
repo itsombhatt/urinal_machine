@@ -31,16 +31,18 @@ const generateUrinals = () => {
 function App() {
   const [randomState, setRandomState] = useState()
   const [urinalState, setUrinalState] = useState([])
+  const [prediction, setPrediciton] = useState(-1);
 
   //console.log(urinalState)
   console.log("HELP")
 
   const sendEntry = async (index) =>{
-    await axios.post(`http://localhost:5000/data`, {
+    const response = await axios.post(`http://localhost:5000/data`, {
       choice: index,
       situation: urinalState
     })
-    setUrinalState(generateUrinals)
+    console.log(response.data);
+    setPrediciton(response.data.prediction);
   }
 
   useEffect(() => {
@@ -54,6 +56,11 @@ function App() {
       setRandomState(40)
     }
   }, [])
+
+  const makeAnotherSelection = () => {
+    setPrediciton(-1);
+    setUrinalState(generateUrinals)
+  }
 
 
   return (
@@ -70,6 +77,7 @@ function App() {
             <div key = {index}>
               <button disabled={urinal===2} className='md:h-96 h-32 w-full bg-white' key = {index} onClick={() => {sendEntry(index)}}>
               <img src={images[urinal]} alt="Urinal" className='h-full w-full'/>
+              {prediction == index ? (<h2>AI PREDICTION</h2>) : null}
               </button>
 
             </div>
@@ -77,6 +85,9 @@ function App() {
           )
         })}
 
+      </div>
+      <div className='text-center w-full'>
+        {prediction == -1 ? null : <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={makeAnotherSelection}>Make Another Selection</button>}
       </div>
       <div className='text-center w-full absolute inset-x-0 bottom-0 my-4 text-gray-400'>
           {randomState ? <div>owned by Alex ({randomState + 1}%) and Om ({100 - randomState - 1}%) </div> : <div></div>}
