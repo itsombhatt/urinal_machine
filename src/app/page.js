@@ -31,7 +31,8 @@ const generateUrinals = () => {
 function App() {
   const [randomState, setRandomState] = useState()
   const [urinalState, setUrinalState] = useState([])
-  const [prediction, setPrediciton] = useState(-1);
+  const [prediction, setPrediciton] = useState([0, 0, 0, 0, 0]);
+  const [loaded, setLoaded] = useState(false)
 
   //console.log(urinalState)
   console.log("HELP")
@@ -43,6 +44,10 @@ function App() {
     })
     console.log(response.data);
     setPrediciton(response.data.prediction);
+    
+    if(loaded == false){
+      setLoaded(true)
+    }
   }
 
   useEffect(() => {
@@ -58,8 +63,8 @@ function App() {
   }, [])
 
   const makeAnotherSelection = () => {
-    setPrediciton(-1);
     setUrinalState(generateUrinals)
+    setLoaded(false)
   }
 
 
@@ -77,8 +82,8 @@ function App() {
             <div key = {index}>
               <button disabled={urinal===2} className='md:h-96 h-32 w-full bg-white' key = {index} onClick={() => {sendEntry(index)}}>
               <img src={images[urinal]} alt="Urinal" className='h-full w-full'/>
-              {prediction == index ? (<h2>AI PREDICTION</h2>) : null}
               </button>
+              {loaded == true ? (<h2 className='font-semibold text-xl'>Probability {Number((prediction[index])*100).toFixed(2)} % </h2>) : null}
 
             </div>
           </div>
@@ -86,8 +91,8 @@ function App() {
         })}
 
       </div>
-      <div className='text-center w-full'>
-        {prediction == -1 ? null : <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={makeAnotherSelection}>Make Another Selection</button>}
+      <div className='text-center w-full py-8'>
+        {loaded == false ? null : <button className='border-2 font-bold py-2 px-4 rounded' onClick={makeAnotherSelection}>Make Another Selection</button>}
       </div>
       <div className='text-center w-full absolute inset-x-0 bottom-0 my-4 text-gray-400'>
           {randomState ? <div>owned by Alex ({randomState + 1}%) and Om ({100 - randomState - 1}%) </div> : <div></div>}
